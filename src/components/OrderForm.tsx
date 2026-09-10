@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { CheckCircle2, Loader2, MapPin, Package, Phone, ShoppingBag, User } from "lucide-react";
 import { WILAYAS, getWilaya } from "@/data/algeria";
@@ -108,6 +108,24 @@ export function OrderForm() {
   const [done, setDone] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const sendingLock = useRef(false);
+  const successRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!done) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const el = successRef.current;
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top: top < 0 ? 0 : top, behavior: "smooth" });
+      });
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [done]);
 
   const selected = useMemo(() => (wilaya ? getWilaya(wilaya) : undefined), [wilaya]);
   const communes = selected?.communes ?? [];
@@ -175,7 +193,7 @@ export function OrderForm() {
 
   if (done) {
     return (
-      <section id="order" className="mx-auto w-full max-w-md scroll-mt-24 px-4 pb-6 pt-10">
+      <section ref={successRef} id="order" className="mx-auto w-full max-w-md scroll-mt-24 px-4 pb-6 pt-10">
         <div className="animate-fade-in overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
           <div className="bg-secondary px-5 pb-6 pt-7 text-center">
             <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-card shadow-soft">
