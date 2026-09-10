@@ -4,7 +4,7 @@ import { CheckCircle2, Loader2, MapPin, Package, Phone, ShoppingBag, User } from
 import { WILAYAS, getWilaya } from "@/data/algeria";
 import { PRODUCT } from "@/data/product";
 import { GOOGLE_SHEETS_WEB_APP_URL } from "@/data/order-config";
-import { PricingOffers } from "@/components/PricingOffers";
+import { PricingOffers, offerPrice } from "@/components/PricingOffers";
 
 type Delivery = "desk" | "home";
 
@@ -102,6 +102,7 @@ export function OrderForm() {
   const [wilaya, setWilaya] = useState("");
   const [commune, setCommune] = useState("");
   const [delivery, setDelivery] = useState<Delivery | "">("");
+  const [qty, setQty] = useState(1);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -114,7 +115,8 @@ export function OrderForm() {
   const shipping =
     selected && delivery ? (delivery === "desk" ? selected.deskPrice : selected.homePrice) : 0;
   const showTotals = Boolean(selected && commune && delivery);
-  const total = PRODUCT.price + shipping;
+  const productTotal = offerPrice(qty);
+  const total = productTotal + shipping;
 
   const validate = () => {
     const e: Errors = {};
@@ -146,7 +148,8 @@ export function OrderForm() {
         wilaya: selected?.name ?? "",
         commune,
         delivery: delivery === "desk" ? "المكتب" : "المنزل",
-        productPrice: PRODUCT.price,
+        quantity: qty,
+        productPrice: productTotal,
         shippingPrice: shipping,
         total,
         product: PRODUCT.name,
@@ -194,7 +197,7 @@ export function OrderForm() {
               <Detail icon={<MapPin className="h-4 w-4" />} label="الولاية" value={selected?.name ?? ""} />
               <Detail icon={<MapPin className="h-4 w-4" />} label="البلدية" value={commune} />
               <Detail icon={<ShoppingBag className="h-4 w-4" />} label="المنتج" value={PRODUCT.name} />
-              <Detail icon={<Package className="h-4 w-4" />} label="الكمية" value="1" />
+              <Detail icon={<Package className="h-4 w-4" />} label="الكمية" value={String(qty)} />
               <Detail
                 icon={<Package className="h-4 w-4" />}
                 label="طريقة التوصيل"
@@ -285,7 +288,7 @@ export function OrderForm() {
           </select>
         </Field>
 
-        {selected && commune && <PricingOffers />}
+        {selected && commune && <PricingOffers value={qty} onChange={setQty} />}
 
         {selected && commune && (
           <div className="animate-fade-in space-y-2">
@@ -342,7 +345,7 @@ export function OrderForm() {
 
         {showTotals && (
           <div className="animate-fade-in space-y-2 rounded-2xl bg-secondary p-4 text-sm text-secondary-foreground">
-            <Row label="سعر المنتج" value={`${dz(PRODUCT.price)} ${PRODUCT.currency}`} />
+            <Row label={`سعر المنتج (${qty})`} value={`${dz(productTotal)} ${PRODUCT.currency}`} />
             <Row label="التوصيل" value={`${dz(shipping)} ${PRODUCT.currency}`} />
             <div className="h-px bg-border" />
             <div className="flex items-center justify-between text-base font-extrabold text-foreground">
