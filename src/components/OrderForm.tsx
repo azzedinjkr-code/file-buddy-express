@@ -148,7 +148,8 @@ export function OrderForm() {
         wilaya: selected?.name ?? "",
         commune,
         delivery: delivery === "desk" ? "المكتب" : "المنزل",
-        productPrice: PRODUCT.price,
+        quantity: qty,
+        productPrice: productTotal,
         shippingPrice: shipping,
         total,
         product: PRODUCT.name,
@@ -196,7 +197,7 @@ export function OrderForm() {
               <Detail icon={<MapPin className="h-4 w-4" />} label="الولاية" value={selected?.name ?? ""} />
               <Detail icon={<MapPin className="h-4 w-4" />} label="البلدية" value={commune} />
               <Detail icon={<ShoppingBag className="h-4 w-4" />} label="المنتج" value={PRODUCT.name} />
-              <Detail icon={<Package className="h-4 w-4" />} label="الكمية" value="1" />
+              <Detail icon={<Package className="h-4 w-4" />} label="الكمية" value={String(qty)} />
               <Detail
                 icon={<Package className="h-4 w-4" />}
                 label="طريقة التوصيل"
@@ -287,7 +288,7 @@ export function OrderForm() {
           </select>
         </Field>
 
-        {selected && commune && <PricingOffers />}
+        {selected && commune && <PricingOffers value={qty} onChange={setQty} />}
 
         {selected && commune && (
           <div className="animate-fade-in space-y-2">
@@ -344,7 +345,7 @@ export function OrderForm() {
 
         {showTotals && (
           <div className="animate-fade-in space-y-2 rounded-2xl bg-secondary p-4 text-sm text-secondary-foreground">
-            <Row label="سعر المنتج" value={`${dz(PRODUCT.price)} ${PRODUCT.currency}`} />
+            <Row label={`سعر المنتج (${qty})`} value={`${dz(productTotal)} ${PRODUCT.currency}`} />
             <Row label="التوصيل" value={`${dz(shipping)} ${PRODUCT.currency}`} />
             <div className="h-px bg-border" />
             <div className="flex items-center justify-between text-base font-extrabold text-foreground">
