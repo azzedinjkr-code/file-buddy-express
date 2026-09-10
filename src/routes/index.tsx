@@ -6,6 +6,7 @@ import { TrustBar } from "@/components/TrustBar";
 import { OrderForm } from "@/components/OrderForm";
 import { Faq } from "@/components/Faq";
 import backzoneLogo from "@/assets/backzone-logo.png";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,6 +114,8 @@ function Index() {
 
       <footer className="mx-auto max-w-3xl px-4 pb-8 text-center text-xs text-muted-foreground">
       </footer>
+
+      <WhatsAppButton />
     </main>
   );
 }

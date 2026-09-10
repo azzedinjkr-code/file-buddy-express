@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, MapPin, Package, Phone, ShoppingBag, User } from
 import { WILAYAS, getWilaya } from "@/data/algeria";
 import { PRODUCT } from "@/data/product";
 import { GOOGLE_SHEETS_WEB_APP_URL } from "@/data/order-config";
+import { PricingOffers } from "@/components/PricingOffers";
 
 type Delivery = "desk" | "home";
 
@@ -283,6 +284,8 @@ export function OrderForm() {
             ))}
           </select>
         </Field>
+
+        {selected && commune && <PricingOffers />}
 
         {selected && commune && (
           <div className="animate-fade-in space-y-2">
