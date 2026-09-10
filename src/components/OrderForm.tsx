@@ -193,7 +193,7 @@ export function OrderForm() {
 
   if (done) {
     return (
-      <section ref={successRef} id="order" className="mx-auto w-full max-w-md scroll-mt-24 px-4 pb-6 pt-10">
+      <section ref={successRef} id="order" className="mx-auto w-full max-w-md scroll-mt-0 px-4 pb-6 pt-2">
         <div className="animate-fade-in overflow-hidden rounded-3xl border border-border bg-card shadow-soft">
           <div className="bg-secondary px-5 pb-6 pt-7 text-center">
             <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-card shadow-soft">
