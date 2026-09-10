@@ -102,6 +102,7 @@ export function OrderForm() {
   const [wilaya, setWilaya] = useState("");
   const [commune, setCommune] = useState("");
   const [delivery, setDelivery] = useState<Delivery | "">("");
+  const [qty, setQty] = useState(1);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -114,7 +115,8 @@ export function OrderForm() {
   const shipping =
     selected && delivery ? (delivery === "desk" ? selected.deskPrice : selected.homePrice) : 0;
   const showTotals = Boolean(selected && commune && delivery);
-  const total = PRODUCT.price + shipping;
+  const productTotal = offerPrice(qty);
+  const total = productTotal + shipping;
 
   const validate = () => {
     const e: Errors = {};
