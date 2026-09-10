@@ -117,8 +117,8 @@ export function OrderForm() {
       raf2 = requestAnimationFrame(() => {
         const el = successRef.current;
         if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY - 90;
-        window.scrollTo({ top: top < 0 ? 0 : top, behavior: "smooth" });
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: top < 0 ? 0 : top, behavior: "auto" });
       });
     });
     return () => {
