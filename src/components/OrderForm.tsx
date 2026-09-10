@@ -4,7 +4,7 @@ import { CheckCircle2, Loader2, MapPin, Package, Phone, ShoppingBag, User } from
 import { WILAYAS, getWilaya } from "@/data/algeria";
 import { PRODUCT } from "@/data/product";
 import { GOOGLE_SHEETS_WEB_APP_URL } from "@/data/order-config";
-import { PricingOffers } from "@/components/PricingOffers";
+import { PricingOffers, offerPrice } from "@/components/PricingOffers";
 
 type Delivery = "desk" | "home";
 
